@@ -293,7 +293,7 @@ This refresh the ENTIRE page every time user clicks the link.
 ```
 By using `Link` here, we don't refresh the whole page, rather just the part of the page.
 
-# Shared Context in React
+## Shared Context in React
 
 e.g. sharing login information
 
@@ -302,3 +302,44 @@ How?
 2. Put some state in the context
 3. Share the created context with other components
 
+## `useEffect`
+
+if you want to load data as soon as the initial version of the component is ready.
+
+```
+useEffect(
+        () => refreshTodos(), []
+    )
+```
+`useEffect` takes 2 arguments, (effect: EffectCallback, deps?: DependencyList).
+if you don't pass the second element, it will be triggered number of times. It tells the effect when it has to render.
+`[]` -> we don't have specific dependencies here, just load it at the start.
+
+# Axios
+
+One of the most popular frameworks which is used along with React to call rest API.
+When you make a API call using axios, there are 3 things you can do.
+
+1. then: for successful results
+2. catch: for errors
+3. finally: irrespective of whether it's a success or a failure. for cleanup.
+
+In all of these, we defines something called `callback methods`.
+
+```
+axios.get("http://localhost:8080/hello-world-bean"
+).then(
+    (response) => successfulResponse(response)
+).catch(
+    (error) => errorResponse(error)
+).finally(
+    () => console.log("cleanup")
+)
+```
+In this code, `axios.get()` will return a `Promise`.
+A Promise is an object that represents the eventual completion (or failure) of an asynchronous operation and its resulting value.
+
+It has three states:
+- Pending – The initial state, before the operation completes.
+- Fulfilled – The operation completed successfully.
+- Rejected – The operation failed.
