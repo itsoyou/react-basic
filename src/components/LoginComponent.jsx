@@ -4,8 +4,8 @@ import { useAuth } from './security/AuthContext'
 
 
 export default function LoginComponent() {
-    const [username, setUsername] = useState("test")
-    const [password, setPassword] = useState("1234")
+    const [username, setUsername] = useState("in28minutes")
+    const [password, setPassword] = useState("dummy")
     const [showErrorMessage, setShowErrorMessage] = useState(false)
     const navigate = useNavigate()
     const authContext = useAuth()
@@ -20,8 +20,10 @@ export default function LoginComponent() {
         setPassword(event.target.value)
     }
 
-    function handleSubmit() {
-        if (authContext.login(username, password)) {
+    async function handleSubmit() {
+        // since login function has to wait for a promise to executed,
+        // this also need to use await.
+        if (await authContext.login(username, password)) {
             navigate(`/welcome/${username}`)
         } else {
             setShowErrorMessage(true)

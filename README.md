@@ -315,6 +315,52 @@ useEffect(
 if you don't pass the second element, it will be triggered number of times. It tells the effect when it has to render.
 `[]` -> we don't have specific dependencies here, just load it at the start.
 
+
+The `useEffect` hook in React performs side effects in function components. It is used when you need to
+
+1. Fetching data from an API
+2. Listening for changes (e.g., window size, authentication state)
+3. Updating the document title
+4. Cleaning up (e.g., removing event listeners, clearing intervals)
+
+Basic Logic is like below:
+```
+useEffect(() => {
+  // Side effect logic (e.g., fetch data, modify DOM)
+  return () => {
+    // Cleanup function (optional)
+  };
+}, [dependencies]);
+```
+Effect Function runs when the component mounts or when dependencies change.
+Dependency Array controls when useEffect runs.
+Cleanup Function runs when the component unmounts or before re-running the effect.
+
+## `useCallback`
+
+useCallback is a React Hook that memoizes (caches) a function definition between re-renders. It's particularly useful when:
+
+1. You're passing callbacks to optimized child components that rely on reference equality to prevent unnecessary renders.
+2. You have a function that's used as a dependency in other hooks like useEffect
+
+```
+function DataFetcher({ userId }) {
+  const [data, setData] = useState(null);
+
+  const fetchData = useCallback(async () => {
+    const response = await fetch(`/api/data/${userId}`);
+    const result = await response.json();
+    setData(result);
+  }, [userId]); // Depends on userId
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]); // fetchData is a dependency of useEffect
+
+  return <div>{/* render data */}</div>;
+}
+```
+
 # Axios
 
 One of the most popular frameworks which is used along with React to call rest API.
@@ -343,3 +389,40 @@ It has three states:
 - Pending – The initial state, before the operation completes.
 - Fulfilled – The operation completed successfully.
 - Rejected – The operation failed.
+
+# Dependencies
+
+Formik: library for building forms easily
+
+Moment
+
+# JWT Token(Json Web Token)
+
+Basic authentication had limits like this:
+- No expiration time
+- No user Details
+- Easily decoded(no use in production)
+
+How about creating a custom token system?
+- possible security flows
+- different structure -> service provider/consumer cannot understand
+
+That's why JWT is introduced.
+Open, industry standard for representing cliams securely between two parties.
+It can contain User Details and Authorizations.
+
+## What does a JWT contain?
+* Header
+ - typ(Type): JWT
+ - alg(Hashing algorithm): HS256
+* Payload
+ - Standard attributes
+    - iss(issuer)
+    - sub(subject)
+    - aud(audience)
+    - exp(token expiration time)
+    - iat(token issued time)
+ - Custom attributes
+* Signature
+ - includes a secret
+
